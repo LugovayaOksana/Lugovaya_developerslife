@@ -10,6 +10,7 @@ import com.example.developerslife.data.repository.RandomRepositoryImpl
 import com.example.developerslife.domain.repository.RandomRepository
 import com.example.developerslife.domain.use_case.GetCachedPostsUseCase
 import com.example.developerslife.domain.use_case.GetRandomPostUseCase
+import com.example.developerslife.presentation.feeds.FeedsViewModel
 import com.example.developerslife.presentation.random.RandomViewModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -72,6 +73,7 @@ object DI {
 
     private fun presentationModule(appContext: Context) = module {
         viewModel { RandomViewModel(get()) }
+        viewModel { FeedsViewModel() }
     }
 
     @OptIn(ExperimentalSerializationApi::class)

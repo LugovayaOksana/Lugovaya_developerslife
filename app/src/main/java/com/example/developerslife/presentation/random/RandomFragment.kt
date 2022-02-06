@@ -12,7 +12,6 @@ import com.example.developerslife.databinding.FragmentRandomBinding
 import com.example.developerslife.util.startBounceAnimation
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RandomFragment: Fragment() {
@@ -46,10 +45,17 @@ class RandomFragment: Fragment() {
             binding.errorMessage.isVisible = false
             binding.previousButton.isEnabled = it.isBackEnabled
             binding.nextButton.isEnabled = it.isForwardEnabled
+            binding.networkError.isVisible = false
+
+            binding.previousButton.alpha = if(!it.isBackEnabled) { 0.2f }else { 1f }
+
             when(it) {
                 is RandomState.Error -> {
-                    binding.errorMessage.isVisible = true
-                    binding.errorMessage.text = it.message
+                    binding.networkError.isVisible = true
+
+//                        binding.errorMessage.isVisible = true
+//                        binding.errorMessage.text = it.message
+
                 }
                 is RandomState.Loaded -> {
                     binding.image.isVisible = true
@@ -66,7 +72,6 @@ class RandomFragment: Fragment() {
 
     private fun initViews() {
         with(binding) {
-            previousButton.alpha = 0.2f
             //viewPager.adapter = PostsAdapter().also { adapter = it }
             //viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
             previousButton.setOnClickListener { view ->
@@ -78,6 +83,11 @@ class RandomFragment: Fragment() {
                 view.startBounceAnimation()
                 viewModel.loadNextPost()
             }
+
+            tryAgainButton.setOnClickListener {
+                viewModel.loadNextPost()
+            }
+
         }
     }
 

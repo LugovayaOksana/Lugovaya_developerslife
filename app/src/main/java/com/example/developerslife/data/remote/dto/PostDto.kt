@@ -24,9 +24,10 @@ data class PostDto(
     val width: String?
 )
 
-fun PostDto.toDevLifePost(dbId: Long): Post {
+fun PostDto.toRandomPost(dbId: Long): Post {
     return Post(
         id = dbId,
+        section = "random",
         description= description!!,
         gifURL= gifURL!!
     )

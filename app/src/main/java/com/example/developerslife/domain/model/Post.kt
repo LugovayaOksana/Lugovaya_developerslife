@@ -1,5 +1,6 @@
 package com.example.developerslife.domain.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,6 +8,9 @@ import androidx.room.PrimaryKey
 data class Post(
     @PrimaryKey
     val id: Long,
+
+    @ColumnInfo(collate = ColumnInfo.NOCASE)
+    val section: String,
 //    val author: String?,
 //    val canVote: Boolean?,
 //    val commentsCount: Int,

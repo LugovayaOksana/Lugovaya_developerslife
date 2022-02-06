@@ -10,6 +10,8 @@ ext.koinVersion = '3.0.2'
 ext.retrofitVersion = '2.9.0'
 ext.okhttp3Version = '4.9.1'
 ext.roomVersion = '2.4.1'
+ext.compose_version = '1.2.0-alpha02'
+ext.accompanistVersion = '0.19.0'
 
 android {
     compileSdk 31
@@ -34,12 +36,19 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerVersion kotlin_version
+    }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
 
     buildFeatures {
         viewBinding true
+        compose = true
     }
 
 
@@ -98,4 +107,22 @@ dependencies {
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.4.1"
+
+    implementation "androidx.paging:paging-runtime:3.1.0"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha14"
+
+    //Compose dependencies
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.activity:activity-compose:1.4.0"
+    implementation "com.google.accompanist:accompanist-drawablepainter:$accompanistVersion"
+    implementation "com.google.accompanist:accompanist-insets:$accompanistVersion"
+    implementation "com.google.accompanist:accompanist-pager:0.24.1-alpha" // Pager
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.24.1-alpha" // Pager Indicators
+
+    implementation "com.github.skydoves:landscapist-glide:1.4.5"
+
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0"
+
 }
