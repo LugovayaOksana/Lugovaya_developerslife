@@ -13,7 +13,7 @@ interface PostDao {
     fun getPosts(): Flow<List<Post>>
 
     @Query("SELECT * FROM post WHERE id = :id")
-    suspend fun getPostById(id: Int): Post?
+    suspend fun getPostById(id: Long): Post?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(post: Post)

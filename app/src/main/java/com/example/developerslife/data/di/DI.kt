@@ -4,14 +4,13 @@ import android.content.Context
 import androidx.room.Room
 import com.example.developerslife.BuildConfig
 import com.example.developerslife.common.Constants
-import com.example.developerslife.data.data_source.PostDao
 import com.example.developerslife.data.data_source.PostDataBase
 import com.example.developerslife.data.remote.PostApi
-import com.example.developerslife.data.repository.DevFilePostRepositoryImpl
-import com.example.developerslife.domain.repository.DevLifePostRepository
+import com.example.developerslife.data.repository.RandomRepositoryImpl
+import com.example.developerslife.domain.repository.RandomRepository
 import com.example.developerslife.domain.use_case.GetCachedPostsUseCase
-import com.example.developerslife.domain.use_case.GetPostUseCase
-import com.example.developerslife.presentation.MainViewModel
+import com.example.developerslife.domain.use_case.GetRandomPostUseCase
+import com.example.developerslife.presentation.random.RandomViewModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -65,14 +64,14 @@ object DI {
     }
 
     private fun domainModule(appContext: Context) = module {
-        single<DevLifePostRepository> { DevFilePostRepositoryImpl(get(), get()) }
+        single<RandomRepository> { RandomRepositoryImpl(get(), get()) }
         single { GetCachedPostsUseCase(get()) }
-        single { GetPostUseCase(get(), get()) }
+        single { GetRandomPostUseCase(get()) }
     }
 
 
     private fun presentationModule(appContext: Context) = module {
-        viewModel { MainViewModel(get(), get()) }
+        viewModel { RandomViewModel(get()) }
     }
 
     @OptIn(ExperimentalSerializationApi::class)

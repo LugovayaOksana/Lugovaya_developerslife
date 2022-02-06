@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Post(
+    @PrimaryKey
+    val id: Long,
 //    val author: String?,
 //    val canVote: Boolean?,
 //    val commentsCount: Int,
@@ -22,7 +24,4 @@ data class Post(
 //    val votes: Int?,
 //    val width: String?
 
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Long = 0
-}
+)

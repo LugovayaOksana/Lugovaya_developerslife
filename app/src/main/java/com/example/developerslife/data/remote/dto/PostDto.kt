@@ -24,8 +24,9 @@ data class PostDto(
     val width: String?
 )
 
-fun PostDto.toDevLifePost(): Post {
+fun PostDto.toDevLifePost(dbId: Long): Post {
     return Post(
+        id = dbId,
         description= description!!,
         gifURL= gifURL!!
     )
