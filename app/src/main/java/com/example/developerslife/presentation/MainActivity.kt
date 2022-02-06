@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnRandom.setOnClickListener { showRandom() }
 
         if (savedInstanceState == null) {
-            showFeeds()
+            showRandom()
         }
     }
 

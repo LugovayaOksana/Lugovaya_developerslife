@@ -1,10 +1,6 @@
 package com.example.developerslife.presentation.components
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -16,12 +12,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.paging.LoadState
-import androidx.paging.LoadStateAdapter
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
@@ -98,7 +94,6 @@ fun FeedView(postsState: LazyPagingItems<FeedPost>) {
         state = rememberSwipeRefreshState(isRefreshing),
         onRefresh = { postsState.refresh() },
     ) {
-
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             itemsIndexed(postsState) { index, item ->
                     if (item != null) {
@@ -106,6 +101,19 @@ fun FeedView(postsState: LazyPagingItems<FeedPost>) {
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                 }
+
+            if (postsState.loadState.append.endOfPaginationReached && postsState.itemCount == 0) {
+                item {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Здесь ничего нет :)",
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center
+                    )
+                    LottieCat(modifier = Modifier.fillParentMaxSize())
+
+                }
+            }
 
             postsState.apply {
                 when {
@@ -199,29 +207,8 @@ fun PostView(post: FeedPost) {
 }
 
 @Composable
-fun InfiniteAnimation() {
-    val infiniteTransition = rememberInfiniteTransition()
-
-    val heartSize by infiniteTransition.animateFloat(
-        initialValue = 100.0f,
-        targetValue = 250.0f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(800, delayMillis = 100, easing = FastOutLinearInEasing),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-//    Image(
-//        painter = painterResource(R.drawable.
-//        heart),
-//        contentDescription = "heart",
-//        modifier = Modifier
-//            .size(heartSize.dp)
-//    )
-}
-
-@Composable
-private fun Hearts() {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.hearts))
+private fun LottieCat(modifier: Modifier = Modifier) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.cat))
     val colors = remember {
         listOf(
             Color.Red,
@@ -257,61 +244,9 @@ private fun Hearts() {
         composition,
         iterations = LottieConstants.IterateForever,
         dynamicProperties = dynamicProperties,
-        modifier = Modifier
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = { colorIndex = (colorIndex + 1) % colors.size },
-            )
+        modifier = Modifier.height(300.dp)
     )
 }
-
-/*
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-fun HorizontalPagerWithOffsetTransition() {
-
-    HorizontalPager(
-        count = 3,
-        // Add 32.dp horizontal padding to 'center' the pages
-        contentPadding = PaddingValues(horizontal = 32.dp),
-        modifier = Modifier.fillMaxSize()
-    ) { page ->
-        Card(
-            Modifier
-                .graphicsLayer {
-                    // Calculate the absolute offset for the current page from the
-                    // scroll position. We use the absolute value which allows us to mirror
-                    // any effects for both directions
-                    val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-
-                    // We animate the scaleX + scaleY, between 85% and 100%
-                    lerp(
-                        start = 0.85f,
-                        stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                    ).also { scale ->
-                        scaleX = scale
-                        scaleY = scale
-                    }
-
-                    // We animate the alpha, between 50% and 100%
-                    alpha = lerp(
-                        start = 0.5f,
-                        stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                    )
-                }
-                .fillMaxWidth()
-                .aspectRatio(1f)
-        ) {
-            Box {
-
-            }
-        }
-    }
-}
-*/
 
 @Preview
 @Composable
