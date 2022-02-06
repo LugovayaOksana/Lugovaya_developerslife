@@ -121,9 +121,12 @@ dependencies {
     implementation "com.google.accompanist:accompanist-insets:$accompanistVersion"
     implementation "com.google.accompanist:accompanist-pager:0.24.1-alpha" // Pager
     implementation "com.google.accompanist:accompanist-pager-indicators:0.24.1-alpha" // Pager Indicators
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0"
 
     implementation "com.github.skydoves:landscapist-glide:1.4.5"
 
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0"
+    implementation 'com.google.accompanist:accompanist-swiperefresh:0.24.1-alpha'
+
+    implementation 'com.airbnb.android:lottie-compose:4.2.2'
 
 }

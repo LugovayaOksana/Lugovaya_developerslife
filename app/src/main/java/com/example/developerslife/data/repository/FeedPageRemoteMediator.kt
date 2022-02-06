@@ -13,7 +13,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
-class PageRemoteMediator(
+class FeedPageRemoteMediator(
     private val api: PostApi,
     private val db: PostDataBase,
     private val section: String,

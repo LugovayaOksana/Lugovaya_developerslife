@@ -12,14 +12,14 @@ private const val PAGE_SIZE = 5
 class FeedsRepositoryImpl(
     private val api: PostApi,
     private val db: PostDataBase
-) : FeedsRepository {
+): FeedsRepository {
 
     private val dao = db.feedPostDao
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getPostBySection(section: String) = Pager(
         config = PagingConfig(PAGE_SIZE),
-        remoteMediator = PageRemoteMediator(api, db, section)
+        remoteMediator = FeedPageRemoteMediator(api, db, section, PAGE_SIZE)
     ) {
         dao.postsBySection(section)
     }.flow

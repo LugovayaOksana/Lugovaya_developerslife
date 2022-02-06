@@ -11,17 +11,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 data class FeedState(
     val title: String,
     val posts: Flow<PagingData<FeedPost>>
-    )
+)
 
 class FeedsViewModel(
     private val repository: FeedsRepository
-): ViewModel() {
+) : ViewModel() {
 
     val feedsState = MutableStateFlow<List<FeedState>>(listOf())
 
     init {
         feedsState.value = listOf(
-            FeedState("Latest", repository.getPostBySection("latest"))
+            FeedState("Latest", repository.getPostBySection("latest")),
+            FeedState("Hot", repository.getPostBySection("hot")),
+            FeedState("Top", repository.getPostBySection("top"))
         )
     }
 }

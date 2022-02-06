@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/userView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="40dp"
         android:src="@drawable/ic_user"
         app:layout_constraintRight_toLeftOf="@+id/title"
