@@ -1,13 +1,13 @@
 package com.example.developerslife.domain.use_case
 
-import com.example.developerslife.domain.model.Post
+import com.example.developerslife.domain.model.RandomPost
 import com.example.developerslife.domain.repository.RandomRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetCachedPostsUseCase(
     private val repository:  RandomRepository
 ) {
-    operator fun invoke(): Flow<List<Post>> = TODO()/*repository.getPosts()*//*flow {
+    operator fun invoke(): Flow<List<RandomPost>> = TODO()/*repository.getPosts()*//*flow {
         try {
             emit(Resource.Loading())
             val posts = repository.getPosts()

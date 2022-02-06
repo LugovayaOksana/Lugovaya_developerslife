@@ -2,14 +2,14 @@ package com.example.developerslife.presentation.random
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.developerslife.domain.model.Post
+import com.example.developerslife.domain.model.RandomPost
 import com.example.developerslife.domain.use_case.GetRandomPostUseCase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 sealed class RandomState(val isBackEnabled: Boolean, val isForwardEnabled: Boolean) {
     object Loading: RandomState(false, false)
-    class Loaded(val post: Post, isBackEnabled: Boolean) : RandomState(isBackEnabled, true)
+    class Loaded(val post: RandomPost, isBackEnabled: Boolean) : RandomState(isBackEnabled, true)
     class Error(val message: String, isBackEnabled: Boolean) : RandomState(isBackEnabled, false)
 }
 

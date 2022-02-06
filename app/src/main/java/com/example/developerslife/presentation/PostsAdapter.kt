@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.developerslife.databinding.ItemPageBinding
-import com.example.developerslife.domain.model.Post
+import com.example.developerslife.domain.model.RandomPost
 
 class PostsAdapter : RecyclerView.Adapter<PagerVH>() {
 
-    private val items = mutableListOf<Post>()
+    private val items = mutableListOf<RandomPost>()
 
-    fun setItems(posts: List<Post>) {
+    fun setItems(posts: List<RandomPost>) {
         items.clear()
         items.addAll(posts)
         notifyDataSetChanged()

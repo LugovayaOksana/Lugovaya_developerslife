@@ -1,20 +1,20 @@
 package com.example.developerslife.presentation.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.bumptech.glide.Glide
-import com.example.developerslife.domain.model.Post
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemsIndexed
+import com.example.developerslife.domain.model.FeedPost
 import com.example.developerslife.presentation.feeds.FeedsViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -27,12 +27,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun FeedsScreen(viewModel: FeedsViewModel) {
     val states by viewModel.feedsState.collectAsState()
+    if (states.isEmpty()) return
+
+    val pagedItems = states.first().posts.collectAsLazyPagingItems()
+
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
         TabRow(
-
             selectedTabIndex = pagerState.currentPage,
             backgroundColor = Color.LightGray,
             contentColor = Color.Black,
@@ -62,23 +65,29 @@ fun FeedsScreen(viewModel: FeedsViewModel) {
             state = pagerState,
             count = states.size
         ) { page ->
-            FeedView(posts = states[page].posts)
+            FeedView(postsState = pagedItems)
         }
     }
 }
 
 @Composable
-fun FeedView(posts: List<Post>) {
+fun FeedView(postsState: LazyPagingItems<FeedPost>) {
     LazyColumn(content = {
-        items(posts, key = { it.id }) {
-            PostView(post = it)
+        itemsIndexed(postsState) { index, item ->
+            if (item != null) {
+                PostView(post = item)
+            }
             Spacer(modifier = Modifier.height(20.dp))
+        }
+
+        if (postsState.loadState.append is LoadState.Loading) {
+
         }
     })
 }
 
 @Composable
-fun PostView(post: Post) {
+fun PostView(post: FeedPost) {
     Card(
         modifier = Modifier.fillMaxSize(),
         elevation = 5.dp,
@@ -91,6 +100,7 @@ fun PostView(post: Post) {
             )
             Spacer(modifier = Modifier.height(5.dp))
             GlideImage(
+                modifier = Modifier.fillMaxWidth().height(200.dp),
                 imageModel = post.gifURL,
                 // shows a progress indicator when loading an image.
                 loading = {

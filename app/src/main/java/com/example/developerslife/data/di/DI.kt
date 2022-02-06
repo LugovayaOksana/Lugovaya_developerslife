@@ -6,7 +6,9 @@ import com.example.developerslife.BuildConfig
 import com.example.developerslife.common.Constants
 import com.example.developerslife.data.data_source.PostDataBase
 import com.example.developerslife.data.remote.PostApi
+import com.example.developerslife.data.repository.FeedsRepositoryImpl
 import com.example.developerslife.data.repository.RandomRepositoryImpl
+import com.example.developerslife.domain.repository.FeedsRepository
 import com.example.developerslife.domain.repository.RandomRepository
 import com.example.developerslife.domain.use_case.GetCachedPostsUseCase
 import com.example.developerslife.domain.use_case.GetRandomPostUseCase
@@ -58,14 +60,11 @@ object DI {
                 PostDataBase.DATABASE_NAME
             ).build()
         }
-
-        single {
-            get<PostDataBase>().postDao
-        }
     }
 
     private fun domainModule(appContext: Context) = module {
         single<RandomRepository> { RandomRepositoryImpl(get(), get()) }
+        single<FeedsRepository> { FeedsRepositoryImpl(get(), get()) }
         single { GetCachedPostsUseCase(get()) }
         single { GetRandomPostUseCase(get()) }
     }
@@ -73,7 +72,7 @@ object DI {
 
     private fun presentationModule(appContext: Context) = module {
         viewModel { RandomViewModel(get()) }
-        viewModel { FeedsViewModel() }
+        viewModel { FeedsViewModel(get()) }
     }
 
     @OptIn(ExperimentalSerializationApi::class)
